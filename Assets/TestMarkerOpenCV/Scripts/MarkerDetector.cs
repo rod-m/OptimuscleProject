@@ -21,12 +21,18 @@ namespace OpenCVTest
 
     public class MarkerDetector : MonoBehaviour, IMarkerDetector
     {
+        /// <summary>
+        /// scriptable object for tuning colour range
+        /// </summary>
         [SerializeField] HSVCalibrate markerColourRange;
-        [SerializeField] int DILATE_SIZE = 1;
-        [SerializeField] int ERODE_SIZE = 1;
+        int DILATE_SIZE = 1;
+        int ERODE_SIZE = 1;
         [SerializeField] bool debug;
         [SerializeField] bool printCoords;
         [SerializeField] bool showOutput;
+        /// <summary>
+        /// visualise what the object detector can see
+        /// </summary>
         [SerializeField] bool showCombinedHSVMat;
         private bool flip;
         Scalar hueFrom;
@@ -37,7 +43,9 @@ namespace OpenCVTest
 
         Scalar valFrom;
         Scalar valTo;
-
+        /// <summary>
+        /// How much cleaning up of material to do
+        /// </summary>
         [SerializeField] CleanOption clean = CleanOption.GrowOne;
 
         [SerializeField] double boundLeft;
@@ -47,14 +55,16 @@ namespace OpenCVTest
 
         public int gridRows = 480;
         public int gridCols = 640;
-
+        /// <summary>
+        /// min distance to be detected in frame
+        /// </summary>
         [SerializeField] int minDist = 1;
         [SerializeField] int maxSize = 2;
-        Scalar markerColor = new Scalar(90, 255, 0);
-
+        
+        List<Rect> markers = new List<Rect>();
         private void Start()
         {
-            markerColor = markerColourRange.GetMarkerDisplayColor();
+            
         }
 
         int rectSizeSortFunction(Rect a, Rect b)
@@ -98,7 +108,7 @@ namespace OpenCVTest
             return a.val[0] + a.val[1] + a.val[2] + a.val[3];
         }
 
-        public void FindMarkers(ref Mat cameraFeed, ref Texture2D texture, bool flip)
+        public List<Rect> FindMarkers(ref Mat cameraFeed, ref Texture2D texture, bool flip)
         {
             Mat hsvImg = new Mat();
             //cvtColor(img, hsvImg, cv::COLOR_BGR2HSV);
@@ -222,40 +232,44 @@ namespace OpenCVTest
             connectedComponents.Sort(rectSizeSortFunction);
             int _markerCount = 0;
             //Merge overlapping and reject components that are too close to others
-            List<Rect> markers = new List<Rect>();
-            foreach (var it in connectedComponents)
+            if (connectedComponents.Count > 0)
             {
-                bool merged = false;
-
-                foreach (var it2 in markers)
+                markers = new List<Rect>();
+                foreach (var it in connectedComponents)
                 {
-                    if (rectsOverlap(it, it2))
-                    {
-                        merged = true;
-                        break;
-                    }
-                }
+                    bool merged = false;
 
-                bool keep = !merged;
-                if (!merged && minDist > 0)
-                {
                     foreach (var it2 in markers)
                     {
-                        if (rectsAreClose(it, it2, minDist))
+                        if (rectsOverlap(it, it2))
                         {
-                            keep = false;
+                            merged = true;
                             break;
                         }
                     }
+
+                    bool keep = !merged;
+                    if (!merged && minDist > 0)
+                    {
+                        foreach (var it2 in markers)
+                        {
+                            if (rectsAreClose(it, it2, minDist))
+                            {
+                                keep = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (keep)
+                    {
+                        _markerCount++;
+                        markers.Add(it);
+                    }
                 }
 
-                if (keep)
-                {
-                    _markerCount++;
-                    markers.Add(it);
-                }
             }
-
+            
             //Assign labels
             
             List<List<Rect>> grid = new List<List<Rect>>();
@@ -347,33 +361,38 @@ namespace OpenCVTest
                     {
                         for (int c = 0; c < gridCols; c++)
                         {
-                            //rectangle(img, grid.at(r).at(c), cellColor);
                             Imgproc.rectangle(cameraFeed, grid[r][c], cellColor);
                         }
                     }
                 }
 
-                // Markers
-                foreach (var it in markers)
+                if (showOutput)
                 {
-                    x = it.x;
-                    y = it.y;
-                    w = it.width;
-                    h = it.height;
-                    //Imgproc.rectangle(rgbaMat, boundRect.tl(), boundRect.br(), CONTOUR_COLOR_WHITE, 2, 8, 0);
-                    Rect boundRect = new Rect(x - 1, y - 1, w + 2, h + 2);
-                    Imgproc.rectangle(cameraFeed, boundRect.tl(), boundRect.br(), markerColourRange.GetMarkerDisplayColor(), markerColourRange.thickness,8,0);
+                    // Markers
+                    foreach (var it in markers)
+                    {
+                        x = it.x;
+                        y = it.y;
+                        w = it.width;
+                        h = it.height;
+                        Rect boundRect = new Rect(x - 1, y - 1, w + 2, h + 2);
+                        Imgproc.rectangle(cameraFeed, boundRect.tl(), boundRect.br(),
+                            markerColourRange.GetMarkerDisplayColor(), markerColourRange.thickness, 8, 0);
+                        if (printCoords)
+                        {
+                            Imgproc.putText(cameraFeed, $"{x},{y}", new Point(x - 10, y - 15), 1, 1,
+                                new Scalar(50, 250, 50, 255), 1);
+                        }
+                    }
+                    Utils.matToTexture2D(cameraFeed, texture, flip);
                 }
 
 
-                
+
             }
-            if (showOutput)
-            {
-                Imgproc.putText(cameraFeed, $"Output markers: {_markerCount} total {total}", new Point(5, cameraFeed.rows() - 10),
-                    Imgproc.FONT_HERSHEY_SIMPLEX, 1.0, new Scalar(250, 250, 250, 255), 2, Imgproc.LINE_AA, false);
-            }
-            Utils.matToTexture2D(cameraFeed, texture, flip);
+   
+            
+            return markers;
         }
     }
 }

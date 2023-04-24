@@ -11,7 +11,7 @@ using OpenCVForUnity.UnityUtils.Helper;
 using OpenCVForUnityExample;
 //using Orbbec;
 using OrbbecUnity;
-
+using Rect = OpenCVForUnity.CoreModule.Rect;
 namespace OpenCVTest
 {
     public class BasicMarkerDetector : MonoBehaviour, IMarkerDetector
@@ -22,8 +22,8 @@ namespace OpenCVTest
         [SerializeField] bool debug;
         [SerializeField] bool printCoords;
         [SerializeField] bool showOutput;
-
-        public void FindMarkers(ref Mat cameraFeed, ref Texture2D texture, bool flip)
+        List<Rect> markers = new List<Rect>();
+        public List<Rect> FindMarkers(ref Mat cameraFeed, ref Texture2D texture, bool flip)
         {
             Mat rgbMat = new Mat();
             Mat hsvMat = new Mat();
@@ -40,6 +40,7 @@ namespace OpenCVTest
             }
             Imgproc.cvtColor(rgbMat, cameraFeed, Imgproc.COLOR_RGB2RGBA);
             Utils.matToTexture2D(cameraFeed, texture, flip);
+            return markers;
         }
         /// <summary>
         /// Draws the object.
@@ -73,20 +74,8 @@ namespace OpenCVTest
                 Vector3 mPos = Camera.main.transform.forward * distance;
                 mPos.x = p.getXPos();
                 mPos.y = p.getYPos();
-                // if (distance > 0 && enablePointCloudObjects)
-                // {
-                //     if (markerTransforms.Count <= i)
-                //     {
-                //         var posM = Instantiate(markerModel, mPos, Quaternion.identity, markerParent);
-                //         posM.localPosition = mPos;
-                //         markerTransforms.Add(posM);
-                //     }else
-                //     {
-                //
-                //         var mk = markerTransforms[i];
-                //         mk.position = mPos;
-                //     }
-                // }
+                markers.Add(new Rect(p.getXPos()-2, p.getYPos()-2,4, 4));
+                
                
                     
             }
@@ -131,8 +120,10 @@ namespace OpenCVTest
             Imgproc.findContours(temp, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
 
             bool colorObjectFound = false;
+            
             if (hierarchy.rows() > 0)
             {
+                markers = new List<Rect>();
                 int numObjects = hierarchy.rows();
 
                 //if number of objects greater than MAX_NUM_OBJECTS we have a noisy filter
