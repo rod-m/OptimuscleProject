@@ -782,6 +782,175 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1122043212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1122043219}
+  - component: {fileID: 1122043218}
+  - component: {fileID: 1122043217}
+  - component: {fileID: 1122043216}
+  - component: {fileID: 1122043215}
+  - component: {fileID: 1122043214}
+  - component: {fileID: 1122043213}
+  m_Layer: 0
+  m_Name: MarkerTracker (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1122043213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122043212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4400279bb550406887bd10d698a33fde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  markerColourRange: {fileID: 11400000, guid: cbe8dbc88506d7c46bfbea9f2cee3f86, type: 2}
+  DILATE_SIZE: 1
+  ERODE_SIZE: 1
+  debug: 0
+  printCoords: 0
+  showOutput: 0
+  showCombinedHSVMat: 0
+  clean: 2
+  boundLeft: 0
+  boundRight: 200
+  boundTop: 0
+  boundBottom: 200
+  gridRows: 480
+  gridCols: 640
+  minDist: 1
+  maxSize: 10
+--- !u!114 &1122043214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122043212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03ffc138d8c85b946b9bae82bf2c68c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alignment: 1
+  offset: {x: 10, y: 10}
+  boxVisible: 1
+  boxWidth: 200
+  boxHeight: 110
+  padding: {x: 8, y: 5}
+  consoleHeight: 50
+--- !u!114 &1122043215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122043212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a4bd5a635d6f8d45aedf4c4c443432c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enablePointCloudObjects: 0
+  flip: 1
+  frameSource: {fileID: 254647412}
+  markerParent: {fileID: 873009802}
+  markerModel: {fileID: 3377349978305995992, guid: 43f50336952206a46b6490a6ef89ca0b, type: 3}
+  numberMarkers: 30
+  MAX_NUM_OBJECTS: 40
+  DILATE_SIZE: 1
+  ERODE_SIZE: 1
+--- !u!23 &1122043216
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122043212}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 5f75d61d40a554b4c808372d193e3224, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1122043217
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122043212}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!33 &1122043218
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122043212}
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1122043219
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122043212}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 640, y: 480, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1360629245
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,13 +1059,14 @@ GameObject:
   - component: {fileID: 1709852082}
   - component: {fileID: 1709852089}
   - component: {fileID: 1709852088}
+  - component: {fileID: 1709852091}
   m_Layer: 0
   m_Name: MarkerTracker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1709852082
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1008,17 +1178,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enablePointCloudObjects: 0
+  flip: 1
   frameSource: {fileID: 254647412}
   markerParent: {fileID: 873009802}
   markerModel: {fileID: 3377349978305995992, guid: 43f50336952206a46b6490a6ef89ca0b, type: 3}
   numberMarkers: 30
   MAX_NUM_OBJECTS: 40
-  DILATE_SIZE: 6
-  ERODE_SIZE: 3
+  DILATE_SIZE: 1
+  ERODE_SIZE: 1
+--- !u!114 &1709852091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709852081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67af0cc65f69434683f979f07524f3a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   markerColourRanges:
   - {fileID: 11400000, guid: 5a62256a6485ca04b9f6bbac532c87a0, type: 2}
-  - {fileID: 11400000, guid: 8dd33ac7a85273e4eb79739293a2bdbe, type: 2}
-  - {fileID: 11400000, guid: 04614e9374f312f4d8dbf3e59e05ad4b, type: 2}
+  DILATE_SIZE: 1
+  ERODE_SIZE: 1
+  debug: 0
+  printCoords: 0
+  showOutput: 1
 --- !u!1 &2102677519
 GameObject:
   m_ObjectHideFlags: 0

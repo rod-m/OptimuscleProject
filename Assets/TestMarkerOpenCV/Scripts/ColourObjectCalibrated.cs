@@ -14,7 +14,7 @@ namespace OpenCVTest
         [SerializeField] Color HSVminC = UnityEngine.Color.green;
         [SerializeField] Color HSVmaxC = UnityEngine.Color.green;
         [SerializeField] Color colour = UnityEngine.Color.yellow;
-
+        
         public ColorObject()
         {
             //set values for default constructor
@@ -47,13 +47,17 @@ namespace OpenCVTest
         public Scalar getHSVmin()
         {
             //return HSVmin;
-            return new Scalar(HSVminC.r, HSVminC.g, HSVminC.b, 1) * 255;
+            float H, S, V;
+            Color.RGBToHSV(HSVminC, out H, out S, out V);
+            return new Scalar(H * 255,S * 100,V * 100);
         }
 
         public Scalar getHSVmax()
         {
             //return HSVmax;
-            return new Scalar(HSVmaxC.r, HSVmaxC.g, HSVmaxC.b, 1) * 255;
+            float H, S, V;
+            Color.RGBToHSV(HSVmaxC, out H, out S, out V);
+             return new Scalar(H * 255,S * 100,V * 100);
         }
         
         public string getType()
