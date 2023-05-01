@@ -8,10 +8,18 @@ namespace OpenCVTest
     [CreateAssetMenu(fileName = "HSVCalibrate", menuName = "HSVCalibrate", order = 0)]
     public class HSVCalibrate : ScriptableObject
     {
-        public bool active = true;
+        [Header("Choose marker HSV color range")]
         [MinMaxRangedInteger(1, 255)] public RangedInteger hueRange;
         [MinMaxRangedInteger(1, 255)] public RangedInteger saturationRange;
         [MinMaxRangedInteger(1, 255)] public RangedInteger valueRange;
+
+        [Header("Choose marker minimum distance")]
+        [Range(0, 100)]public int minDistance = 1;
+        [Header("Choose marker size range")]
+        [MinMaxRangedInteger(0, 50)] public RangedInteger sizeRange;
+        [Header("Choose marker bounds clipping")]
+        [MinMaxRangeAttribute(1, 100)] public RangedFloat boundHorizontal;
+        [MinMaxRangeAttribute(1, 100)] public RangedFloat boundVertical;
 
         [Header("Choose marker display thickness")]
         [Range(1, 6)] public int thickness = 2;

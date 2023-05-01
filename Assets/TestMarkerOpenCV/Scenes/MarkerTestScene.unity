@@ -819,7 +819,7 @@ MonoBehaviour:
   markerColourRange: {fileID: 11400000, guid: cbe8dbc88506d7c46bfbea9f2cee3f86, type: 2}
   debug: 0
   printCoords: 0
-  showOutput: 0
+  showOutput: 1
   showCombinedHSVMat: 0
   clean: 2
   boundLeft: 0
@@ -862,7 +862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enablePointCloudObjects: 0
-  flip: 1
+  flip: 0
   frameSource: {fileID: 254647412}
   markerParent: {fileID: 873009802}
   markerModel: {fileID: 3377349978305995992, guid: 43f50336952206a46b6490a6ef89ca0b, type: 3}

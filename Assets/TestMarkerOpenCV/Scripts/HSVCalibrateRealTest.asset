@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 913ac88f247f44f19050fa9c11965395, type: 3}
+  m_Name: HSVCalibrateRealTest
+  m_EditorClassIdentifier: 
+  active: 1
+  hueRange:
+    minValue: 129
+    maxValue: 208
+  saturationRange:
+    minValue: 54
+    maxValue: 100
+  valueRange:
+    minValue: 58
+    maxValue: 174
+  thickness: 2
+  markerDisplayColor: {r: 0, g: 0.73333335, b: 0.2509804, a: 1}

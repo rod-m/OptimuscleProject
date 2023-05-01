@@ -2,8 +2,6 @@
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using System.Collections;
 using System.Collections.Generic;
 using OpenCVForUnity.CoreModule;
 using OpenCVForUnity.ImgprocModule;
@@ -145,6 +143,9 @@ namespace OpenCVTest
                 texture.Reinitialize(obColorFrame.width, obColorFrame.height);
             }
 
+            var timeStamp = obColorFrame.systemTimestamp;
+            var timeStampDepth = obDepthFrame.systemTimestamp;
+            Debug.Log($"col time: {timeStamp} > {timeStampDepth}");
             texture.LoadRawTextureData(obColorFrame.data);
             texture.Apply();
             //Mat rgbaMat = webCamTextureToMatHelper.GetMat();
@@ -158,13 +159,13 @@ namespace OpenCVTest
                 {
                     var _pixelX = marker.x;
                     var _pixelY = marker.y;
-                    var distance = GetDistanceFromCameraToPixel(_pixelX, _pixelY);
+                    var distance = GetDistanceFromCameraToPixel(_pixelX, _pixelY, obDepthFrame.data);
                     Imgproc.putText(rgbaMat, $"{distance}mm", new Point(_pixelX - 15, _pixelY + 15), 1, 1,
                         new Scalar(250, 80, 80, 225), 1);
                     PointCloud(i, _pixelX, _pixelY, distance);
                     i++;
                 }
-
+                // getTimeStamp
                 Utils.matToTexture2D(rgbaMat, texture, flip);
             }
         }
@@ -188,13 +189,13 @@ namespace OpenCVTest
             }
         }
 
-        ushort GetDistanceFromCameraToPixel(int _x, int _y)
+        ushort GetDistanceFromCameraToPixel(int _x, int _y, byte[] _data)
         {
-            if (obDepthFrame == null) return 0;
+            if (_data == null) return 0;
             // depth frame data byte array of unsigned short - 2bit
             int pointSize = Marshal.SizeOf(typeof(ushort));
-            IntPtr dataPtr = Marshal.AllocHGlobal(obDepthFrame.data.Length);
-            Marshal.Copy(obDepthFrame.data, 0, dataPtr, obDepthFrame.data.Length);
+            IntPtr dataPtr = Marshal.AllocHGlobal(_data.Length);
+            Marshal.Copy(_data, 0, dataPtr, _data.Length);
             int data_pointer = 0;
             if (_y > 0)
             {

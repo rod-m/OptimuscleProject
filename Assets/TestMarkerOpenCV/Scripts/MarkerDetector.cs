@@ -6,6 +6,7 @@ using OpenCVForUnity.UnityUtils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CustomEditorExtensions;
 using UnityEngine;
 using Rect = OpenCVForUnity.CoreModule.Rect;
 
@@ -48,19 +49,11 @@ namespace OpenCVTest
         /// </summary>
         [SerializeField] CleanOption clean = CleanOption.GrowOne;
 
-        [SerializeField] double boundLeft;
-        [SerializeField] double boundRight;
-        [SerializeField] double boundTop;
-        [SerializeField] double boundBottom;
+       
 
         public int gridRows = 480;
         public int gridCols = 640;
-        /// <summary>
-        /// min distance to be detected in frame
-        /// </summary>
-        [SerializeField] int minDist = 1;
-        [SerializeField] int maxSize = 2;
-        
+
         List<Rect> markers = new List<Rect>();
         private void Start()
         {
@@ -193,13 +186,13 @@ namespace OpenCVTest
             int width = cameraFeed.cols();
             int height = cameraFeed.rows();
             int minX = 0, minY = 0, maxX = width, maxY = height;
-            bool checkBounds = boundLeft > 0.0 || boundTop > 0.0 || boundRight < 100.0 || boundBottom < 100.0;
+            bool checkBounds = markerColourRange.boundHorizontal.minValue > 0.0 || markerColourRange.boundVertical.minValue > 0.0 || markerColourRange.boundHorizontal.maxValue < 100.0 || markerColourRange.boundVertical.maxValue < 100.0;
             if (checkBounds)
             {
-                minX = (int) ((double) width * boundLeft / 100.0);
-                minY = (int) ((double) height * boundTop / 100.0);
-                maxX = (int) ((double) width * boundRight / 100.0);
-                maxY = (int) ((double) height * boundBottom / 100.0);
+                minX = (int) ((double) width * markerColourRange.boundHorizontal.minValue / 100.0);
+                minY = (int) ((double) height * markerColourRange.boundVertical.minValue / 100.0);
+                maxX = (int) ((double) width * markerColourRange.boundHorizontal.maxValue / 100.0);
+                maxY = (int) ((double) height * markerColourRange.boundVertical.maxValue / 100.0);
                 if (debug)
                     Debug.Log("Checking bounds");
             }
@@ -213,8 +206,10 @@ namespace OpenCVTest
                 h = (int) stats.get(i, Imgproc.CC_STAT_HEIGHT)[0];
                 add = true;
 
-                if (maxSize > 0)
-                    add = w <= maxSize && h <= maxSize;
+                if (markerColourRange.sizeRange.maxValue > 1)
+                    add = w <= markerColourRange.sizeRange.maxValue && h <= markerColourRange.sizeRange.maxValue;
+                if (add && markerColourRange.sizeRange.minValue > 0)
+                    add = w >= markerColourRange.sizeRange.minValue && h >= markerColourRange.sizeRange.minValue;
 
                 if (checkBounds)
                     add = add && x >= minX && x + w <= maxX && y >= minY && y + h <= maxY;
@@ -228,12 +223,13 @@ namespace OpenCVTest
             if (debug)
                 Debug.Log($"{connectedComponents.Count} connected components");
 
-            //Sort by size
-            connectedComponents.Sort(rectSizeSortFunction);
+            
             int _markerCount = 0;
             //Merge overlapping and reject components that are too close to others
             if (connectedComponents.Count > 0)
             {
+                //Sort by size
+                connectedComponents.Sort(rectSizeSortFunction);
                 markers = new List<Rect>();
                 foreach (var it in connectedComponents)
                 {
@@ -249,11 +245,11 @@ namespace OpenCVTest
                     }
 
                     bool keep = !merged;
-                    if (!merged && minDist > 0)
+                    if (!merged && markerColourRange.minDistance > 0)
                     {
                         foreach (var it2 in markers)
                         {
-                            if (rectsAreClose(it, it2, minDist))
+                            if (rectsAreClose(it, it2, markerColourRange.minDistance))
                             {
                                 keep = false;
                                 break;
@@ -386,12 +382,8 @@ namespace OpenCVTest
                     }
                     Utils.matToTexture2D(cameraFeed, texture, flip);
                 }
-
-
-
+                
             }
-   
-            
             return markers;
         }
     }
