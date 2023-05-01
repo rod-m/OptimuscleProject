@@ -23,7 +23,7 @@ namespace OpenCVTest
         [SerializeField] bool printCoords;
         [SerializeField] bool showOutput;
         List<Rect> markers = new List<Rect>();
-        public List<Rect> FindMarkers(ref Mat cameraFeed, ref Texture2D texture, bool flip)
+        public List<MarkerLabel> FindMarkers(ref Mat cameraFeed, ref Texture2D texture, bool flip)
         {
             Mat rgbMat = new Mat();
             Mat hsvMat = new Mat();
@@ -40,7 +40,8 @@ namespace OpenCVTest
             }
             Imgproc.cvtColor(rgbMat, cameraFeed, Imgproc.COLOR_RGB2RGBA);
             Utils.matToTexture2D(cameraFeed, texture, flip);
-            return markers;
+            List<MarkerLabel> markerDatas = new List<MarkerLabel>();
+            return markerDatas;
         }
         /// <summary>
         /// Draws the object.

@@ -157,8 +157,8 @@ namespace OpenCVTest
                 int i = 0;
                 foreach (var marker in markers)
                 {
-                    var _pixelX = marker.x;
-                    var _pixelY = marker.y;
+                    var _pixelX = (int)marker.x;
+                    var _pixelY = (int)marker.y;
                     var distance = GetDistanceFromCameraToPixel(_pixelX, _pixelY, obDepthFrame.data);
                     Imgproc.putText(rgbaMat, $"{distance}mm", new Point(_pixelX - 15, _pixelY + 15), 1, 1,
                         new Scalar(250, 80, 80, 225), 1);
