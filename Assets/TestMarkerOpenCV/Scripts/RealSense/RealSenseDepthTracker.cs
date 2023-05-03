@@ -219,9 +219,9 @@ namespace TestMarkerOpenCV.Scripts.RealSense
                        
                     }
                 }
-                Mat rgbaMat = new Mat(frame.Height, frame.Width, CvType.CV_8UC3);
-                Utils.texture2DToMat(texture, rgbaMat, false);
-                _showMarkers.ShowOutputMarkers(markers, ref rgbaMat, ref texture, false, true);
+                //Mat rgbaMat = new Mat(frame.Height, frame.Width, CvType.CV_8UC3);
+                //Utils.texture2DToMat(texture, rgbaMat, false);
+                _showMarkers.ShowOutputMarkers(markers);
             }
             
            

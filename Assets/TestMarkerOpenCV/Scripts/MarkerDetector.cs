@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CustomEditorExtensions;
 using UnityEngine;
+using UnityEngine.Events;
 using Rect = OpenCVForUnity.CoreModule.Rect;
 
 namespace OpenCVTest
@@ -22,19 +23,25 @@ namespace OpenCVTest
 
     public class MarkerDetector : MonoBehaviour, IMarkerDetector, IMarkerShowOutput
     {
+        protected Texture2D texture;
+        protected Mat cameraFeed;
+        
         /// <summary>
         /// scriptable object for tuning colour range
         /// </summary>
         [SerializeField] HSVCalibrate markerColourRange;
+
         int DILATE_SIZE = 1;
         int ERODE_SIZE = 1;
         [SerializeField] bool debug;
         [SerializeField] bool printCoords;
-        [SerializeField] bool showOutput;
+      
+
         /// <summary>
         /// visualise what the object detector can see
         /// </summary>
         [SerializeField] bool showCombinedHSVMat;
+
         private bool flip;
         Scalar hueFrom;
         Scalar hueTo;
@@ -44,18 +51,16 @@ namespace OpenCVTest
 
         Scalar valFrom;
         Scalar valTo;
+
         /// <summary>
         /// How much cleaning up of material to do
         /// </summary>
         [SerializeField] CleanOption clean = CleanOption.GrowOne;
 
-       
-        [Header("Define camera size")]
-        public int gridRows = 480;
+
+        [Header("Define camera size")] public int gridRows = 480;
         public int gridCols = 640;
-        [Header("Define marker row and column grid for labels")]
-        [Range(1, 16)] public int markerColumns = 8;
-        [Range(1, 16)] public int markerRows = 8;
+
         List<Rect> markers = new List<Rect>();
         private List<Rect> markerBoundGrid = new List<Rect>();
         private Rect boundsRectangle = new Rect();
@@ -63,6 +68,8 @@ namespace OpenCVTest
         private int width;
         private int height;
         private int minX, minY, maxX, maxY;
+
+        
         private void Start()
         {
             width = gridCols;
@@ -70,6 +77,7 @@ namespace OpenCVTest
             maxX = width;
             maxY = height;
             MarkerLabelGridSetup();
+    
         }
 
         int rectSizeSortFunction(Rect a, Rect b)
@@ -113,7 +121,7 @@ namespace OpenCVTest
             return a.val[0] + a.val[1] + a.val[2] + a.val[3];
         }
 
-        void DrawMarkerLabelGrid(ref Mat cameraFeed)
+        void DrawMarkerLabelGrid()
         {
             Scalar cellColor = new Scalar(40, 125, 155);
             foreach (var cellRect in markerBoundGrid)
@@ -121,35 +129,33 @@ namespace OpenCVTest
                 Imgproc.rectangle(cameraFeed, cellRect, cellColor);
             }
         }
+
+
         void MarkerLabelGridSetup()
         {
             bool checkBounds = UpdateBoundsParams(ref minX, ref minY, ref maxX, ref maxY);
-            if(!checkBounds) return;
+            if (!checkBounds) return;
             markerBoundGrid = new List<Rect>();
-           
-                //markerColumns
-                
-                    
-                for (int r = 0; r < markerRows; r++)
+            Debug.Log("Updating Marker Detection Grid");
+            //markerColumns
+            for (int r = 0; r < markerColourRange.markerRows; r++)
+            {
+                for (int c = 0; c < markerColourRange.markerColumns; c++)
                 {
-                    for (int c = 0; c < markerColumns; c++)
-                    {
-                        Rect cellRect = new Rect();
-                        cellRect.width = boundsRectangle.width / markerColumns;
-                        cellRect.height = boundsRectangle.height / markerRows;
-                        cellRect.x = boundsRectangle.x + c * cellRect.width;
-                        cellRect.y = boundsRectangle.y + r * cellRect.height;
-                        markerBoundGrid.Add(cellRect);
-                        
-                    }
+                    Rect cellRect = new Rect();
+                    cellRect.width = boundsRectangle.width / markerColourRange.markerColumns;
+                    cellRect.height = boundsRectangle.height / markerColourRange.markerRows;
+                    cellRect.x = boundsRectangle.x + c * cellRect.width;
+                    cellRect.y = boundsRectangle.y + r * cellRect.height;
+                    markerBoundGrid.Add(cellRect);
                 }
-            
+            }
         }
 
         string GetMarkerGridLabel(Rect cell)
         {
-            int _gr = boundsRectangle.height / markerRows;
-            int _gc = boundsRectangle.width / markerColumns;
+            int _gr = boundsRectangle.height / markerColourRange.markerRows;
+            int _gc = boundsRectangle.width / markerColourRange.markerColumns;
             int rel_x = cell.x - boundsRectangle.x;
             int rel_y = cell.y - boundsRectangle.y;
             int r = rel_y / _gr;
@@ -158,12 +164,15 @@ namespace OpenCVTest
 
             return _label;
         }
-        public List<MarkerLabel> FindMarkers(ref Mat cameraFeed, ref Texture2D texture, bool flip)
+
+        public List<MarkerLabel> FindMarkers(ref Mat _cameraFeed, ref Texture2D _texture, bool flip)
         {
+            cameraFeed = _cameraFeed;
+            texture = _texture;
             Mat hsvImg = new Mat();
             //cvtColor(img, hsvImg, cv::COLOR_BGR2HSV);
             Imgproc.cvtColor(cameraFeed, hsvImg, Imgproc.COLOR_BGR2HSV);
-            
+
             List<Mat> hsv = new List<Mat>();
             Core.split(hsvImg, hsv);
             //Hue threshold 
@@ -237,7 +246,7 @@ namespace OpenCVTest
             int total = Imgproc.connectedComponentsWithStats(combined, labels, stats, centroids);
 
             //Filter components
-  
+
             List<Rect> connectedComponents = new List<Rect>(total);
             int x, y, w, h;
             width = cameraFeed.cols();
@@ -267,8 +276,8 @@ namespace OpenCVTest
                     connectedComponents.Add(rect);
                 }
             }
-            
-            
+
+
             int _markerCount = 0;
             //Merge overlapping and reject components that are too close to others
             if (connectedComponents.Count > 0)
@@ -308,11 +317,10 @@ namespace OpenCVTest
                         markers.Add(it);
                     }
                 }
-
             }
-            
+
             //Assign labels
-            
+
             List<List<Rect>> grid = new List<List<Rect>>();
             List<MarkerLabel> markerDatas = new List<MarkerLabel>();
             if (_markerCount > 0 && gridRows > 0 && gridCols > 0)
@@ -354,6 +362,7 @@ namespace OpenCVTest
                         gridBottom = marker.y + marker.height;
                     MarkerLabel _markerData = new MarkerLabel();
                     _markerData.label = GetMarkerGridLabel(marker);
+                    _markerData.distance = 0;
                     _markerData.x = marker.x;
                     _markerData.y = marker.y;
                     _markerData.width = marker.width;
@@ -380,10 +389,10 @@ namespace OpenCVTest
 
                     grid.Add(row);
                 }
-                
+
                 //Draw on image
                 // Area of interest
-                
+
                 if (debug && checkBounds)
                 {
                     Imgproc.rectangle(cameraFeed, boundsRectangle,
@@ -391,11 +400,9 @@ namespace OpenCVTest
                 }
 
                 // Grid
-                
                 if (debug && gridRight > 0)
                 {
                     //Bounding box
-                    //rectangle(img, Rect(gridLeft, gridTop, gridRight - gridLeft, gridBottom - gridTop), Scalar(0, 255, 255));
                     Imgproc.rectangle(cameraFeed,
                         new Rect(gridLeft, gridTop, gridRight - gridLeft, gridBottom - gridTop),
                         new Scalar(0, 255, 255));
@@ -408,24 +415,27 @@ namespace OpenCVTest
                             Imgproc.rectangle(cameraFeed, grid[r][c], cellColor);
                         }
                     }
-                    
                 }
 
-                if (showOutput)
+                if (markerColourRange.showOutput)
                 {
-                    DrawMarkerLabelGrid(ref cameraFeed);
-                    // Markers
-                    //ShowOutputMarkers
+                    if (markerColourRange.liveUpdateGrid)
+                    {
+                        MarkerLabelGridSetup();
+                    }
+                    DrawMarkerLabelGrid();
+
                 }
-                
             }
+
             return markerDatas;
         }
 
-        public void ShowOutputMarkers(List<MarkerLabel> markerDatas, ref Mat cameraFeed, ref Texture2D texture, bool flip, bool _printCoords )
+        public void ShowOutputMarkers(List<MarkerLabel> markerDatas)
         {
             foreach (var it in markerDatas)
             {
+                if (it.distance == 0) continue;
                 x = it.x;
                 y = it.y;
                 w = it.width;
@@ -433,17 +443,22 @@ namespace OpenCVTest
                 Rect boundRect = new Rect(x - 1, y - 1, w + 2, h + 2);
                 Imgproc.rectangle(cameraFeed, boundRect.tl(), boundRect.br(),
                     markerColourRange.GetMarkerDisplayColor(), markerColourRange.thickness, 8, 0);
-                if (_printCoords)
+                if (printCoords)
                 {
                     Imgproc.putText(cameraFeed, $"{it.distance}", new Point(x - 10, y - 15), 1, 1.6,
                         new Scalar(50, 250, 50, 255), 1);
                 }
             }
+
             Utils.matToTexture2D(cameraFeed, texture, flip);
         }
+
         private bool UpdateBoundsParams(ref int minX, ref int minY, ref int maxX, ref int maxY)
         {
-            bool checkBounds = markerColourRange.boundHorizontal.minValue > 0.0 || markerColourRange.boundVertical.minValue > 0.0 || markerColourRange.boundHorizontal.maxValue > 1.0 || markerColourRange.boundVertical.maxValue > 1.0;
+            bool checkBounds = markerColourRange.boundHorizontal.minValue > 0.0 ||
+                               markerColourRange.boundVertical.minValue > 0.0 ||
+                               markerColourRange.boundHorizontal.maxValue > 1.0 ||
+                               markerColourRange.boundVertical.maxValue > 1.0;
 
             if (checkBounds)
             {
@@ -456,5 +471,7 @@ namespace OpenCVTest
 
             return checkBounds;
         }
+
+      
     }
 }
