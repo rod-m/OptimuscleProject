@@ -1,9 +1,8 @@
 using System;
-using UnityEngine;
-using System.Collections;
 using OpenCVForUnity.CoreModule;
+using UnityEngine;
 
-namespace OpenCVTest
+namespace OptimuscleMarkers.OrbbecControllers
 {
     [Serializable]
     public class ColorObject

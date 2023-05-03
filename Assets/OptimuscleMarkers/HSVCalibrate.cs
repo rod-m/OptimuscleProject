@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using CustomEditorExtensions;
-using OpenCVForUnity.CoreModule;
-using OpenCVForUnity.UnityUtils;
+﻿using OpenCVForUnity.CoreModule;
+using OptimuscleMarkers.CustomEditorExtensions;
 using UnityEngine;
 
-namespace OpenCVTest
+namespace OptimuscleMarkers
 {
     [CreateAssetMenu(fileName = "HSVCalibrate", menuName = "HSVCalibrate", order = 0)]
     public class HSVCalibrate : ScriptableObject
@@ -29,8 +26,8 @@ namespace OpenCVTest
         [Header("Choose marker size range")]
         [MinMaxRangedInteger(0, 50)] public RangedInteger sizeRange;
         [Header("Choose marker bounds clipping")]
-        [MinMaxRangeAttribute(1, 100)] public RangedFloat boundHorizontal;
-        [MinMaxRangeAttribute(1, 100)] public RangedFloat boundVertical;
+        [MinMaxRange(1, 100)] public RangedFloat boundHorizontal;
+        [MinMaxRange(1, 100)] public RangedFloat boundVertical;
         [Header("MARKER DISPLAY")]
         [Header("Choose marker display thickness")]
         [Range(1, 6)] public int thickness = 2;

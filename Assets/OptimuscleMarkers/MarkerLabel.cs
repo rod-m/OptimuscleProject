@@ -1,4 +1,4 @@
-﻿namespace OpenCVTest
+﻿namespace OptimuscleMarkers
 {
     public class MarkerLabel
     {

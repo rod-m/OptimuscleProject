@@ -1,17 +1,11 @@
-﻿using OpenCVForUnity.CoreModule;
-using OpenCVForUnity.ImgcodecsModule;
+﻿using System.Collections.Generic;
+using OpenCVForUnity.CoreModule;
 using OpenCVForUnity.ImgprocModule;
-using OpenCVForUnity.ObjdetectModule;
 using OpenCVForUnity.UnityUtils;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using CustomEditorExtensions;
 using UnityEngine;
-using UnityEngine.Events;
 using Rect = OpenCVForUnity.CoreModule.Rect;
 
-namespace OpenCVTest
+namespace OptimuscleMarkers
 {
     public enum CleanOption
     {

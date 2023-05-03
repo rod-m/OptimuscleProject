@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Orbbec;
+﻿using Orbbec;
 using OrbbecUnity;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace OpenCVTest
+namespace OptimuscleMarkers.OrbbecControllers
 {
     public class IMUColorDepthReader : MonoBehaviour
     {

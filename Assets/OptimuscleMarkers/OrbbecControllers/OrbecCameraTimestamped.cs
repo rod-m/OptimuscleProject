@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using UnityEngine;
-using UnityEngine.UI;
 using OpenCVForUnity.CoreModule;
 using OpenCVForUnity.ImgprocModule;
 using OpenCVForUnity.UnityUtils;
-using OrbbecUnity;
 using Orbbec;
+using OrbbecUnity;
 using TMPro;
+using UnityEngine;
 using Point = OpenCVForUnity.CoreModule.Point;
 
-namespace OpenCVTest
+namespace OptimuscleMarkers.OrbbecControllers
 {
     public class OrbecCameraTimestamped : MonoBehaviour
     {

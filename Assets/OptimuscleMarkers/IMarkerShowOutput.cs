@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using OpenCVForUnity.CoreModule;
-using UnityEngine;
 
-namespace OpenCVTest
+namespace OptimuscleMarkers
 {
     public interface IMarkerShowOutput
     {

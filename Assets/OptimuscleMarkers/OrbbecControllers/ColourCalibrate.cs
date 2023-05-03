@@ -1,6 +1,7 @@
-﻿using UnityEngine;
-using CustomEditorExtensions;
-namespace OpenCVTest
+﻿using OptimuscleMarkers.CustomEditorExtensions;
+using UnityEngine;
+
+namespace OptimuscleMarkers.OrbbecControllers
 {
     [CreateAssetMenu(fileName = "Colour Calibrate", menuName = "", order = 0)]
     public class ColourCalibrate : ScriptableObject
@@ -17,7 +18,7 @@ namespace OpenCVTest
         /// minimum and maximum object area
         /// </summary>
         
-        [MinMaxRangedIntegerAttribute(1, 200)] public RangedInteger object_area;
+        [MinMaxRangedInteger(1, 200)] public RangedInteger object_area;
        
        
     }

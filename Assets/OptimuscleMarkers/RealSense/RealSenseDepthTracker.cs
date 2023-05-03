@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Intel.RealSense;
-using OpenCVForUnity.CoreModule;
-using OpenCVForUnity.UnityUtils;
-using OpenCVTest;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace TestMarkerOpenCV.Scripts.RealSense
+namespace OptimuscleMarkers.RealSense
 {
-    public class RealSenseTracking  : MonoBehaviour, IGetMarkerList
+    public class RealSenseDepthTracker : MonoBehaviour
     {
-        private List<MarkerLabel> markers;
-
         
-        public List<MarkerLabel> GetMarkers()
-        {
-            return markers;
-        }
         private static TextureFormat Convert(Format lrsFormat)
         {
             switch (lrsFormat)
@@ -88,11 +79,13 @@ namespace TestMarkerOpenCV.Scripts.RealSense
         FrameQueue q;
         Predicate<Frame> matcher;
 
-        private IMarkerDetector _markerDetector;
-
+        private IGetMarkerList _markerList;
+        private IMarkerShowOutput _showMarkers;
         void Start()
         {
-            _markerDetector = GetComponent<IMarkerDetector>();
+            _showMarkers = FindObjectOfType<MarkerDetector>();
+            _markerList = FindObjectOfType<RealSenseTracking>();
+  
             Source.OnStart += OnStartStreaming;
             Source.OnStop += OnStopStreaming;
         }
@@ -176,14 +169,14 @@ namespace TestMarkerOpenCV.Scripts.RealSense
         {
             if (q != null)
             {
-                VideoFrame frame;
-                if (q.PollForFrame<VideoFrame>(out frame))
+                DepthFrame frame;
+                if (q.PollForFrame<DepthFrame>(out frame))
                     using (frame)
                         ProcessFrame(frame);
             }
         }
 
-        private void ProcessFrame(VideoFrame frame)
+        private void ProcessFrame(DepthFrame frame)
         {
             if (HasTextureConflict(frame))
             {
@@ -208,10 +201,28 @@ namespace TestMarkerOpenCV.Scripts.RealSense
 
             texture.LoadRawTextureData(frame.Data, frame.Stride * frame.Height);
             texture.Apply();
-            Mat rgbaMat = new Mat(frame.Height, frame.Width, CvType.CV_8UC3);
-            Utils.texture2DToMat(texture, rgbaMat, false);
-            markers = _markerDetector.FindMarkers(ref rgbaMat, ref texture, false);
+            List<MarkerLabel> markers = _markerList.GetMarkers();
+            // rs2::depth_frame dpt_frame = frame.as<rs2::depth_frame>();
+           
+            if (markers != null)
+            {
+                float distance;
+                foreach (var marker in markers)
+                {
+                    distance = frame.GetDistance(marker.x, marker.y);
+                    if (distance > 0)
+                    {
+                        marker.distance = distance;
+                       
+                    }
+                }
+                //Mat rgbaMat = new Mat(frame.Height, frame.Width, CvType.CV_8UC3);
+                //Utils.texture2DToMat(texture, rgbaMat, false);
+                _showMarkers.ShowOutputMarkers(markers);
+            }
+            
+           
+            
         }
-
     }
 }

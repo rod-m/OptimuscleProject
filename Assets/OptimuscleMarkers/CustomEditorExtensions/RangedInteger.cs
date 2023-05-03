@@ -1,5 +1,6 @@
 ﻿using System;
-namespace CustomEditorExtensions
+
+namespace OptimuscleMarkers.CustomEditorExtensions
 {
     [Serializable]
     public struct RangedInteger

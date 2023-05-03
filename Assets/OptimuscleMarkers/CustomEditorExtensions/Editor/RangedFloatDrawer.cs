@@ -6,7 +6,7 @@ using UnityEngine;
 RangedFloat property which has minValue & maxValue */
 
 
-namespace CustomEditorExtensions.Editor
+namespace OptimuscleMarkers.CustomEditorExtensions.Editor
 {
 	[CustomPropertyDrawer(typeof(RangedFloat), true)]
 	public class RangedFloatDrawer : PropertyDrawer {

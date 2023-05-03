@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Runtime.InteropServices;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using System.Collections;
 using System.Collections.Generic;
 using OpenCVForUnity.CoreModule;
 using OpenCVForUnity.ImgprocModule;
 using OpenCVForUnity.UnityUtils;
-using OpenCVForUnity.UnityUtils.Helper;
-using OpenCVForUnityExample;
-//using Orbbec;
-using OrbbecUnity;
+using UnityEngine; //using Orbbec;
 using Rect = OpenCVForUnity.CoreModule.Rect;
-namespace OpenCVTest
+namespace OptimuscleMarkers.OrbbecControllers
 {
     public class BasicMarkerDetector : MonoBehaviour, IMarkerDetector
     {
