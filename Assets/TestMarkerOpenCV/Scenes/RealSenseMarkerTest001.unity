@@ -1082,7 +1082,6 @@ MonoBehaviour:
   markerColourRange: {fileID: 11400000, guid: 1694735376de77047aa1eeeb3a5b3107, type: 2}
   debug: 1
   printCoords: 1
-  showOutput: 1
   showCombinedHSVMat: 0
   clean: 2
   gridRows: 480

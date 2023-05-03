@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using OpenCVForUnity.CoreModule;
 using UnityEngine;
-
-// using Rect = OpenCVForUnity.CoreModule.Rect;
 namespace OptimuscleMarkers
 {
     public interface IMarkerDetector
