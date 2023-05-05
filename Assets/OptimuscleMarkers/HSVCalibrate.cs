@@ -11,10 +11,7 @@ namespace OptimuscleMarkers
         public bool liveUpdateGrid = true;
         [Header("Display video feed and markers")]
         public bool showOutput = true;
-        [Header("Define marker row and column grid for labels")]
-        [Range(1, 16)] public int markerColumns = 8;
-        [Range(1, 16)] public int markerRows = 8;
-        
+
         [Header("MARKER FILTERS")]
         [Header("Choose marker HSV color range")]
         [MinMaxRangedInteger(1, 255)] public RangedInteger hueRange;
@@ -28,6 +25,9 @@ namespace OptimuscleMarkers
         [Header("Choose marker bounds clipping")]
         [MinMaxRange(1, 100)] public RangedFloat boundHorizontal;
         [MinMaxRange(1, 100)] public RangedFloat boundVertical;
+        [Header("Define marker row and column grid for labels")]
+        [Range(1, 16)] public int markerColumns = 8;
+        [Range(1, 16)] public int markerRows = 8;
         [Header("MARKER DISPLAY")]
         [Header("Choose marker display thickness")]
         [Range(1, 6)] public int thickness = 2;

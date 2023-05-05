@@ -8,6 +8,7 @@ using UnityEngine.Events;
 
 namespace OptimuscleMarkers.RealSense
 {
+    [RequireComponent(typeof(IMarkerDetector))]
     public class RealSenseTracking  : MonoBehaviour, IGetMarkerList
     {
         private List<MarkerLabel> markers;

@@ -11,8 +11,7 @@ namespace OptimuscleMarkers
     {
         GrowOne,
         GrowTwo,
-        GrowThree,
-        GrowFour
+        GrowThree
     }
 
     public class MarkerDetector : MonoBehaviour, IMarkerDetector, IMarkerShowOutput
@@ -23,10 +22,10 @@ namespace OptimuscleMarkers
         /// <summary>
         /// scriptable object for tuning colour range
         /// </summary>
+        [Header("Add a scriptable object from Assets->HSVCalibrate")]
         [SerializeField] HSVCalibrate markerColourRange;
-
-        int DILATE_SIZE = 1;
-        int ERODE_SIZE = 1;
+        
+        [Header("Debugging and callibrating")]
         [SerializeField] bool debug;
         [SerializeField] bool printCoords;
       
@@ -34,6 +33,7 @@ namespace OptimuscleMarkers
         /// <summary>
         /// visualise what the object detector can see
         /// </summary>
+        [Header("Visualise what the object detector can see")]
         [SerializeField] bool showCombinedHSVMat;
 
         private bool flip;
@@ -49,6 +49,7 @@ namespace OptimuscleMarkers
         /// <summary>
         /// How much cleaning up of material to do
         /// </summary>
+        [Header("How much cleaning up of material to do")]
         [SerializeField] CleanOption clean = CleanOption.GrowOne;
 
 
@@ -218,14 +219,7 @@ namespace OptimuscleMarkers
                     Imgproc.erode(combined, combined, thresh, anchor, 4); //Shrink back and beyond to remove tiny blobs
                     Imgproc.dilate(combined, combined, thresh, anchor, 1); //Grow back to normal size
                     break;
-                case CleanOption.GrowFour:
-                    Mat dilateElement =
-                        Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(DILATE_SIZE, DILATE_SIZE));
-                    Mat erodeElement =
-                        Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(ERODE_SIZE, ERODE_SIZE));
-                    Imgproc.erode(combined, combined, erodeElement);
-                    Imgproc.dilate(combined, combined, dilateElement);
-                    break;
+           
             }
 
             if (showCombinedHSVMat)
