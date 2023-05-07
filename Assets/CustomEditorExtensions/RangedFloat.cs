@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OptimuscleMarkers.CustomEditorExtensions
+namespace CustomEditorExtensions
 {
     [Serializable]
     public struct RangedFloat

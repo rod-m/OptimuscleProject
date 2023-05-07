@@ -7,12 +7,13 @@ using OpenCVForUnity.ImgprocModule;
 using OpenCVForUnity.UnityUtils;
 using OpenCVForUnity.UnityUtils.Helper;
 using OpenCVForUnityExample;
+using OptimuscleMarkers;
 using OrbbecUnity;
 using UnityEngine;
 
 //using Orbbec;
 
-namespace OptimuscleMarkers.OrbbecControllers
+namespace OrbbecControllers
 {
     public class MultiCalibratedTracking : MonoBehaviour
     {

@@ -1,7 +1,7 @@
-﻿using OptimuscleMarkers.CustomEditorExtensions;
+﻿using CustomEditorExtensions;
 using UnityEngine;
 
-namespace OptimuscleMarkers.OrbbecControllers
+namespace OrbbecControllers
 {
     [CreateAssetMenu(fileName = "Colour Calibrate", menuName = "", order = 0)]
     public class ColourCalibrate : ScriptableObject

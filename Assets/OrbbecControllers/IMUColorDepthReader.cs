@@ -3,7 +3,7 @@ using OrbbecUnity;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace OptimuscleMarkers.OrbbecControllers
+namespace OrbbecControllers
 {
     public class IMUColorDepthReader : MonoBehaviour
     {

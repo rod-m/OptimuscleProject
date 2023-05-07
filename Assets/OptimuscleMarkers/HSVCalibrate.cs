@@ -1,5 +1,5 @@
 ﻿using OpenCVForUnity.CoreModule;
-using OptimuscleMarkers.CustomEditorExtensions;
+using CustomEditorExtensions;
 using UnityEngine;
 
 namespace OptimuscleMarkers

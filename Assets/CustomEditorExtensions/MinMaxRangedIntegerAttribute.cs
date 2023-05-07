@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OptimuscleMarkers.CustomEditorExtensions
+namespace CustomEditorExtensions
 {
     public class MinMaxRangedIntegerAttribute : Attribute
     {

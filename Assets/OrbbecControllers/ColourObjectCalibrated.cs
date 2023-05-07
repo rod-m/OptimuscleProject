@@ -2,7 +2,7 @@ using System;
 using OpenCVForUnity.CoreModule;
 using UnityEngine;
 
-namespace OptimuscleMarkers.OrbbecControllers
+namespace OrbbecControllers
 {
     [Serializable]
     public class ColorObject

@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace OptimuscleMarkers.CustomEditorExtensions.Editor
+namespace CustomEditorExtensions.Editor
 {
     [CustomPropertyDrawer(typeof(RangedInteger), true)]
     public class RangedIntegerDrawer : PropertyDrawer {

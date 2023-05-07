@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 913ac88f247f44f19050fa9c11965395, type: 3}
   m_Name: HSVCalibrateRealTest
   m_EditorClassIdentifier: 
-  liveUpdateGrid: 1
+  liveUpdateGrid: 0
   showOutput: 1
-  markerColumns: 8
-  markerRows: 6
   hueRange:
     minValue: 34
     maxValue: 134
@@ -35,5 +33,7 @@ MonoBehaviour:
   boundVertical:
     minValue: 27.416885
     maxValue: 82.276215
+  markerColumns: 8
+  markerRows: 6
   thickness: 2
   markerDisplayColor: {r: 0, g: 0.73333335, b: 0.2509804, a: 1}

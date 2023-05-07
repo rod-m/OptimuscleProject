@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using OpenCVForUnity.CoreModule;
 using OpenCVForUnity.ImgprocModule;
 using OpenCVForUnity.UnityUtils;
+using OptimuscleMarkers;
 using UnityEngine; //using Orbbec;
 using Rect = OpenCVForUnity.CoreModule.Rect;
-namespace OptimuscleMarkers.OrbbecControllers
+namespace OrbbecControllers
 {
     public class BasicMarkerDetector : MonoBehaviour, IMarkerDetector
     {

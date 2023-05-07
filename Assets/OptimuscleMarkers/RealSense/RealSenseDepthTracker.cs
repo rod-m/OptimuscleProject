@@ -201,9 +201,8 @@ namespace OptimuscleMarkers.RealSense
 
             texture.LoadRawTextureData(frame.Data, frame.Stride * frame.Height);
             texture.Apply();
-            List<MarkerLabel> markers = _markerList.GetMarkers();
-            // rs2::depth_frame dpt_frame = frame.as<rs2::depth_frame>();
-           
+            List<MarkerLabel> markers = _markerList.GetMarkers(_streamIndex);
+
             if (markers != null)
             {
                 float distance;
@@ -216,8 +215,7 @@ namespace OptimuscleMarkers.RealSense
                        
                     }
                 }
-                //Mat rgbaMat = new Mat(frame.Height, frame.Width, CvType.CV_8UC3);
-                //Utils.texture2DToMat(texture, rgbaMat, false);
+
                 _showMarkers.ShowOutputMarkers(markers);
             }
             

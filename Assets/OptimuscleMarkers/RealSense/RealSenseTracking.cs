@@ -11,12 +11,12 @@ namespace OptimuscleMarkers.RealSense
     [RequireComponent(typeof(IMarkerDetector))]
     public class RealSenseTracking  : MonoBehaviour, IGetMarkerList
     {
-        private List<MarkerLabel> markers;
+        private List<MarkerLabel>[] markers = new List<MarkerLabel>[4];
 
         
-        public List<MarkerLabel> GetMarkers()
+        public List<MarkerLabel> GetMarkers(int streamIndex)
         {
-            return markers;
+            return markers[streamIndex];
         }
         private static TextureFormat Convert(Format lrsFormat)
         {
@@ -210,7 +210,7 @@ namespace OptimuscleMarkers.RealSense
             texture.Apply();
             Mat rgbaMat = new Mat(frame.Height, frame.Width, CvType.CV_8UC3);
             Utils.texture2DToMat(texture, rgbaMat, false);
-            markers = _markerDetector.FindMarkers(ref rgbaMat, ref texture, false);
+            markers[_streamIndex] = _markerDetector.FindMarkers(ref rgbaMat, ref texture, false);
         }
 
     }

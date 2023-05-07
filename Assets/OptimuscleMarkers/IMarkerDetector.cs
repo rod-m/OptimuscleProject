@@ -9,6 +9,6 @@ namespace OptimuscleMarkers
     }
     public interface IGetMarkerList
     {
-        List<MarkerLabel> GetMarkers();
+        List<MarkerLabel> GetMarkers(int streamIndex);
     }
 }
