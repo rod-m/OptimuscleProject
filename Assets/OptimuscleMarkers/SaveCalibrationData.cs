@@ -15,5 +15,10 @@ namespace OptimuscleMarkers
             Debug.Log(saveFileName);
             File.WriteAllText(saveFileName, serializedSave);
         }
+
+        public void Quit()
+        {
+            Application.Quit();
+        }
     }
 }
