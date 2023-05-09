@@ -12,15 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 913ac88f247f44f19050fa9c11965395, type: 3}
   m_Name: HSVCalibrateHiGreen
   m_EditorClassIdentifier: 
-  active: 1
+  liveUpdateGrid: 1
+  showOutput: 1
   hueRange:
-    minValue: 54
-    maxValue: 100
+    minValue: 182
+    maxValue: 99
   saturationRange:
     minValue: 48
     maxValue: 176
   valueRange:
     minValue: 129
     maxValue: 232
+  minDistance: 1
+  sizeRange:
+    minValue: 0
+    maxValue: 3
+  boundHorizontal:
+    minValue: 0
+    maxValue: 0
+  boundVertical:
+    minValue: 0
+    maxValue: 0
+  markerColumns: 8
+  markerRows: 8
   thickness: 2
   markerDisplayColor: {r: 1, g: 0, b: 0.1203537, a: 1}

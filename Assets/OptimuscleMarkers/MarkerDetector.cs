@@ -25,6 +25,16 @@ namespace OptimuscleMarkers
         [Header("Add a scriptable object from Assets->HSVCalibrate")]
         [SerializeField] HSVCalibrate markerColourRange;
         
+        public void SetHueMin(int value)
+        {
+            markerColourRange.hueRange.minValue = value;
+            PlayerPrefs.SetInt("HueMin", value);
+        }
+        public void SetHueMax(int value)
+        {
+            markerColourRange.hueRange.maxValue = value;
+            PlayerPrefs.SetInt("HueMax", value);
+        }
         [Header("Debugging and callibrating")]
         [SerializeField] bool debug;
         [SerializeField] bool printCoords;
@@ -84,10 +94,6 @@ namespace OptimuscleMarkers
 
             return -1;
         }
-
-        // bool rectYSortFunction(Rect a, Rect b) {
-        //     return a.y < b.y;
-        // }
         int distSortFunction(Vector2Int a, Vector2Int b)
         {
             if (a[1] < b[1])
@@ -172,7 +178,15 @@ namespace OptimuscleMarkers
             Core.split(hsvImg, hsv);
             //Hue threshold 
             Mat hueMasked = new Mat();
-            hueFrom = markerColourRange.GetHFrom();
+            // if (PlayerPrefs.HasKey("HueMin"))
+            // {
+            //     hueFrom = new Scalar(PlayerPrefs.GetInt("HueMin"));
+            // }
+            // else
+            // {
+                 hueFrom = markerColourRange.GetHFrom();
+            // }
+            
             hueTo = markerColourRange.GetHTo();
             if (hueFrom.val[0] < hueTo.val[0])
                 Core.inRange(hsv[0], hueFrom, hueTo, hueMasked);
@@ -405,7 +419,7 @@ namespace OptimuscleMarkers
                     }
                 }
 
-                if (markerColourRange.showOutput)
+                if (debug)
                 {
                     if (markerColourRange.liveUpdateGrid)
                     {

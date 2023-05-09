@@ -15,17 +15,17 @@ MonoBehaviour:
   liveUpdateGrid: 0
   showOutput: 1
   hueRange:
-    minValue: 34
-    maxValue: 134
+    minValue: 44
+    maxValue: 147
   saturationRange:
-    minValue: 136
-    maxValue: 233
+    minValue: 106
+    maxValue: 255
   valueRange:
-    minValue: 111
-    maxValue: 212
+    minValue: 92
+    maxValue: 255
   minDistance: 8
   sizeRange:
-    minValue: 5
+    minValue: 6
     maxValue: 16
   boundHorizontal:
     minValue: 18.133358

@@ -33,7 +33,7 @@ Material:
     m_Floats:
     - _Colormap: 4
     - _DepthScale: 0.001
-    - _MaxRange: 20
+    - _MaxRange: 12.714286
     - _MinRange: 0
     m_Colors: []
   m_BuildTextureStacks: []
